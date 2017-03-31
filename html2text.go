@@ -3,11 +3,12 @@ package html2text
 import (
 	"bytes"
 	"io"
+	"io/ioutil"
 	"regexp"
 	"strings"
 	"unicode"
 
-	"github.com/ssor/bom"
+	"github.com/dimchansky/utfbom"
 
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
@@ -291,10 +292,9 @@ func FromHtmlNode(doc *html.Node) (string, error) {
 }
 
 func FromReader(reader io.Reader) (string, error) {
-	newReader, err := bom.NewReaderWithoutBom(reader)
-	if err != nil {
-		return "", err
-	}
+	bs, err := ioutil.ReadAll(reader)
+	newReader, _ := utfbom.Skip(bytes.NewReader(bs))
+
 	doc, err := html.Parse(newReader)
 	if err != nil {
 		return "", err
@@ -303,8 +303,8 @@ func FromReader(reader io.Reader) (string, error) {
 }
 
 func FromString(input string) (string, error) {
-	bs := bom.CleanBom([]byte(input))
-	text, err := FromReader(bytes.NewReader(bs))
+	bs := utfbom.SkipOnly(bytes.NewReader([]byte(input)))
+	text, err := FromReader(bs)
 	if err != nil {
 		return "", err
 	}
