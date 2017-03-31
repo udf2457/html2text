@@ -5,7 +5,7 @@
 [![Report Card](https://goreportcard.com/badge/github.com/jaytaylor/html2text)](https://goreportcard.com/report/github.com/cpanato/html2text)
 
 ### Initial information
- This prject was forked from [github.com/jaytaylor/html2text](https://github.com/jaytaylor/html2text) in order to use another clean bom library due the original one has no license.
+ This project was forked from [github.com/jaytaylor/html2text](https://github.com/jaytaylor/html2text) in order to use another clean bom library due the original one has no license.
 
 
 ### Converts HTML into text
