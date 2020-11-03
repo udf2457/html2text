@@ -277,6 +277,7 @@ func getAttrVal(node *html.Node, attrName string) string {
 	return ""
 }
 
+// FromHTMLNode renders text output from a pre-parsed HTML document.
 func FromHtmlNode(doc *html.Node) (string, error) {
 	ctx := textifyTraverseCtx{
 		Buf: bytes.Buffer{},
@@ -291,6 +292,7 @@ func FromHtmlNode(doc *html.Node) (string, error) {
 
 }
 
+// FromReader renders text output after parsing HTML for the specified io.Reader.
 func FromReader(reader io.Reader) (string, error) {
 	bs, err := ioutil.ReadAll(reader)
 	newReader, _ := utfbom.Skip(bytes.NewReader(bs))
@@ -302,6 +304,7 @@ func FromReader(reader io.Reader) (string, error) {
 	return FromHtmlNode(doc)
 }
 
+// FromString parses HTML from the input string, then renders the text form.
 func FromString(input string) (string, error) {
 	bs := utfbom.SkipOnly(bytes.NewReader([]byte(input)))
 	text, err := FromReader(bs)
